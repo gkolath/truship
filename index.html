@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Truship</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%232dd4bf%22/%3E%3Cg%20transform%3D%22translate%280%202%29%22%20fill%3D%22%230f1e1c%22%20stroke%3D%22%230f1e1c%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2010%20L32%2036%20L49%2036%20Z%22%20stroke-width%3D%222%22/%3E%3Cpath%20d%3D%22M28%2017%20L28%2036%20L16%2036%20Z%22%20stroke-width%3D%222%22/%3E%3Cpath%20d%3D%22M12%2042%20L22%2051%20L52%2041%22%20fill%3D%22none%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%23f2a93b%22/%3E%3Cg%20transform%3D%22translate%280%202%29%22%20fill%3D%22%231c1203%22%20stroke%3D%22%231c1203%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2010%20L32%2036%20L49%2036%20Z%22%20stroke-width%3D%222%22/%3E%3Cpath%20d%3D%22M28%2017%20L28%2036%20L16%2036%20Z%22%20stroke-width%3D%222%22/%3E%3Cpath%20d%3D%22M12%2042%20L22%2051%20L52%2041%22%20fill%3D%22none%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%3C/svg%3E">
 <meta name="description" content="Truship is a software delivery consultancy: development, test automation, release management and AI agents for teams that need to ship with confidence.">
 <meta property="og:title" content="Truship · Build it right. Test it hard. Ship it true.">
 <meta property="og:description" content="Software delivery consultancy for development, test automation, release management and AI agents.">
@@ -16,29 +16,29 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <script>try { const t = localStorage.getItem('truship-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>
-  /* Layout: night bands (hero, contact) bracket cool sea-tinted paper sections; one orchestrated moment, the voyage Build → Test → Release. */
+  /* Layout: midnight bands (hero, contact) bracket warm ivory paper sections; one orchestrated moment, the voyage Build → Test → Release. */
   :root {
-    /* Bands (nav, hero, contact): seafoam by day, deep sea at night */
-    --night: #eaf4f1;
-    --night-2: #dfeee9;
-    --night-ink: #0b1d1a;
-    --night-muted: #4b605b;
-    --night-line: #c8dcd6;
-    --sea: #2dd4bf;
-    --sea-bright: #0f766e;
-    --on-sea: #062420;
-    --em-a: #0f766e; --em-b: #0d9488; --em-c: #14b8a6;
-    --wave: 15, 118, 110;
+    /* Bands (nav, hero, contact): warm ivory by day, midnight at night */
+    --night: #faf7f1;
+    --night-2: #f2ece0;
+    --night-ink: #17140e;
+    --night-muted: #6b6252;
+    --night-line: #e3dacb;
+    --sea: #f2a93b;
+    --sea-bright: #9a600c;
+    --on-sea: #1c1203;
+    --em-a: #9a600c; --em-b: #c07a16; --em-c: #e09a2e;
+    --wave: 184, 116, 26;
     --field-scheme: light;
     /* Paper sections follow the viewer's theme */
-    --paper: #f3f7f6;
+    --paper: #fbf9f4;
     --card: #ffffff;
-    --ink: #0d1b19;
-    --muted: #52625f;
-    --rule: #d9e3e0;
-    --accent: #0f766e;
-    --accent-soft: #d6eeea;
-    --shadow: 0 24px 48px -28px rgba(6, 40, 34, .35);
+    --ink: #17140e;
+    --muted: #645c4e;
+    --rule: #e7dfd1;
+    --accent: #9a600c;
+    --accent-soft: #f8ecd3;
+    --shadow: 0 24px 48px -28px rgba(60, 40, 8, .32);
     --display: "Sora", "Segoe UI", system-ui, sans-serif;
     --body: "Manrope", "Segoe UI", system-ui, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -48,16 +48,16 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --night: #06100e; --night-2: #0b1a17; --night-ink: #eaf4f1; --night-muted: #93aea8; --night-line: #1c302c; --sea-bright: #5eead4; --em-a: #5eead4; --em-b: #2dd4bf; --em-c: #a7f3e7; --wave: 45, 212, 191; --field-scheme: dark;
-      --paper: #0a1412; --card: #101d1a; --ink: #e6efec; --muted: #94a8a3; --rule: #1f302c;
-      --accent: #4fd1c0; --accent-soft: #123631; --shadow: 0 24px 48px -28px rgba(0, 0, 0, .7);
+      --night: #0e0d0b; --night-2: #17150f; --night-ink: #fbf6ec; --night-muted: #b3aa98; --night-line: #2d291f; --sea-bright: #f7c873; --em-a: #fde3a7; --em-b: #f7c873; --em-c: #f2a93b; --wave: 242, 169, 59; --field-scheme: dark;
+      --paper: #0c0b09; --card: #15130f; --ink: #f3ede1; --muted: #a89f8e; --rule: #2a261d;
+      --accent: #f2b450; --accent-soft: #3a2d14; --shadow: 0 24px 48px -28px rgba(0, 0, 0, .75);
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --night: #06100e; --night-2: #0b1a17; --night-ink: #eaf4f1; --night-muted: #93aea8; --night-line: #1c302c; --sea-bright: #5eead4; --em-a: #5eead4; --em-b: #2dd4bf; --em-c: #a7f3e7; --wave: 45, 212, 191; --field-scheme: dark;
-    --paper: #0a1412; --card: #101d1a; --ink: #e6efec; --muted: #94a8a3; --rule: #1f302c;
-    --accent: #4fd1c0; --accent-soft: #123631; --shadow: 0 24px 48px -28px rgba(0, 0, 0, .7);
+    --night: #0e0d0b; --night-2: #17150f; --night-ink: #fbf6ec; --night-muted: #b3aa98; --night-line: #2d291f; --sea-bright: #f7c873; --em-a: #fde3a7; --em-b: #f7c873; --em-c: #f2a93b; --wave: 242, 169, 59; --field-scheme: dark;
+    --paper: #0c0b09; --card: #15130f; --ink: #f3ede1; --muted: #a89f8e; --rule: #2a261d;
+    --accent: #f2b450; --accent-soft: #3a2d14; --shadow: 0 24px 48px -28px rgba(0, 0, 0, .75);
     color-scheme: dark;
   }
 
@@ -66,7 +66,7 @@
   body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.65 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--night); }
   a { color: inherit; }
-  :focus-visible { outline: 2px solid var(--sea); outline-offset: 3px; border-radius: 6px; }
+  :focus-visible { outline: 2px solid var(--sea-bright); outline-offset: 3px; border-radius: 6px; }
   .wrap { max-width: var(--wrap); margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
   h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.08; margin: 0; letter-spacing: -0.03em; text-wrap: balance; }
   h2 { font-size: clamp(32px, 4.6vw, 54px); }
@@ -242,7 +242,7 @@
   .plan ul { margin: 6px 0 0; padding: 0; list-style: none; font-size: 15px; display: grid; gap: 8px; }
   .plan li { display: flex; gap: 10px; }
   .plan li::before { content: "✓"; color: var(--accent); font-weight: 700; }
-  .plan.featured li::before { color: var(--sea); }
+  .plan.featured li::before { color: var(--sea-bright); }
   .badge { justify-self: start; font: 600 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: var(--sea); color: var(--on-sea); }
 
   /* Industries */
@@ -328,7 +328,7 @@
 
 <nav class="nav" aria-label="Main">
   <div class="wrap">
-    <a class="brand" href="#top"><svg class="brand-logo" width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#2dd4bf"/><g transform="translate(0 2)" fill="#0f1e1c" stroke="#0f1e1c" stroke-linejoin="round"><path d="M32 10 L32 36 L49 36 Z" stroke-width="2"/><path d="M28 17 L28 36 L16 36 Z" stroke-width="2"/><path d="M12 42 L22 51 L52 41" fill="none" stroke-width="6" stroke-linecap="round"/></g></svg><span>Tru<span class="brand-accent">ship</span></span></a>
+    <a class="brand" href="#top"><svg class="brand-logo" width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#f2a93b"/><g transform="translate(0 2)" fill="#1c1203" stroke="#1c1203" stroke-linejoin="round"><path d="M32 10 L32 36 L49 36 Z" stroke-width="2"/><path d="M28 17 L28 36 L16 36 Z" stroke-width="2"/><path d="M12 42 L22 51 L52 41" fill="none" stroke-width="6" stroke-linecap="round"/></g></svg><span>Tru<span class="brand-accent">ship</span></span></a>
     <div class="nav-links">
       <a href="#capabilities">Capabilities</a>
       <a href="#work">Work</a>
@@ -360,7 +360,7 @@
         <div class="stop s1"><span class="dot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><div><b>Build</b><small>Merged &amp; compiled</small></div></div>
         <div class="stop s2"><span class="dot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><div><b>Test</b><small>Suites green</small></div></div>
         <div class="stop s3"><span class="dot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><div><b>Release</b><small>Shipped to prod</small></div></div>
-        <div class="boat" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#2dd4bf"/><g transform="translate(0 2)" fill="#0f1e1c" stroke="#0f1e1c" stroke-linejoin="round"><path d="M32 10 L32 36 L49 36 Z" stroke-width="2"/><path d="M28 17 L28 36 L16 36 Z" stroke-width="2"/><path d="M12 42 L22 51 L52 41" fill="none" stroke-width="6" stroke-linecap="round"/></g></svg></div>
+        <div class="boat" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#f2a93b"/><g transform="translate(0 2)" fill="#1c1203" stroke="#1c1203" stroke-linejoin="round"><path d="M32 10 L32 36 L49 36 Z" stroke-width="2"/><path d="M28 17 L28 36 L16 36 Z" stroke-width="2"/><path d="M12 42 L22 51 L52 41" fill="none" stroke-width="6" stroke-linecap="round"/></g></svg></div>
       </div>
     </div>
 
@@ -655,7 +655,7 @@ const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canvas = document.getElementById('waves');
   const ctx = canvas.getContext('2d');
   let w = 0, h = 0, t = 0, running = false, raf = 0;
-  let waveRGB = getComputedStyle(document.documentElement).getPropertyValue('--wave').trim() || '45, 212, 191';
+  let waveRGB = getComputedStyle(document.documentElement).getPropertyValue('--wave').trim() || '242, 169, 59';
   addEventListener('themechange', () => { waveRGB = getComputedStyle(document.documentElement).getPropertyValue('--wave').trim() || waveRGB; draw(performance.now()); });
   const lines = [
     { amp: 18, len: 520, speed: .00028, y: .42, alpha: .22 },
