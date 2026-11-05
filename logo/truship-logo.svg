@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="160" viewBox="0 0 280 80">
+  <style>@import url("https://fonts.googleapis.com/css2?family=Sora:wght@700&amp;display=swap"); text { font-family: Sora, "Segoe UI", system-ui, sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -1.3px; }</style>
+  <g transform="translate(8 8)">
+  <rect width="64" height="64" rx="15" fill="#2dd4bf"/>
+  <g transform="translate(0 2)" fill="#0f1e1c" stroke="#0f1e1c" stroke-linejoin="round">
+    <path d="M32 10 L32 36 L49 36 Z" stroke-width="2"/>
+    <path d="M28 17 L28 36 L16 36 Z" stroke-width="2"/>
+    <path d="M12 42 L22 51 L52 41" fill="none" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  </g>
+  <text x="84" y="55" fill="#0f1e1c">Tru<tspan fill="#0f766e">ship</tspan></text>
+</svg>

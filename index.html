@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Truship</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2215%22%20fill%3D%22%232dd4bf%22/%3E%3Cg%20transform%3D%22translate%280%202%29%22%20fill%3D%22%230f1e1c%22%20stroke%3D%22%230f1e1c%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M32%2010%20L32%2036%20L49%2036%20Z%22%20stroke-width%3D%222%22/%3E%3Cpath%20d%3D%22M28%2017%20L28%2036%20L16%2036%20Z%22%20stroke-width%3D%222%22/%3E%3Cpath%20d%3D%22M12%2042%20L22%2051%20L52%2041%22%20fill%3D%22none%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%3C/svg%3E">
+<meta name="description" content="Truship is a software delivery consultancy: development, test automation, release management and AI agents for teams that need to ship with confidence.">
+<meta property="og:title" content="Truship · Build it right. Test it hard. Ship it true.">
+<meta property="og:description" content="Software delivery consultancy for development, test automation, release management and AI agents.">
+<meta property="og:image" content="https://truship.org/logo/truship-logo-dark.png">
+<meta property="og:url" content="https://truship.org/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: night bands (hero, contact) bracket cool sea-tinted paper sections; one orchestrated moment, the voyage Build → Test → Release. */
+  :root {
+    /* Night bands look the same in both themes */
+    --night: #06100e;
+    --night-2: #0b1a17;
+    --night-ink: #eaf4f1;
+    --night-muted: #93aea8;
+    --night-line: #1c302c;
+    --sea: #2dd4bf;
+    --sea-bright: #5eead4;
+    --on-sea: #062420;
+    /* Paper sections follow the viewer's theme */
+    --paper: #f3f7f6;
+    --card: #ffffff;
+    --ink: #0d1b19;
+    --muted: #52625f;
+    --rule: #d9e3e0;
+    --accent: #0f766e;
+    --accent-soft: #d6eeea;
+    --shadow: 0 24px 48px -28px rgba(6, 40, 34, .35);
+    --display: "Sora", "Segoe UI", system-ui, sans-serif;
+    --body: "Manrope", "Segoe UI", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    --wrap: 1160px;
+    --gutter-l: max(20px, env(safe-area-inset-left, 0px));
+    --gutter-r: max(20px, env(safe-area-inset-right, 0px));
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0a1412; --card: #101d1a; --ink: #e6efec; --muted: #94a8a3; --rule: #1f302c;
+      --accent: #4fd1c0; --accent-soft: #123631; --shadow: 0 24px 48px -28px rgba(0, 0, 0, .7);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0a1412; --card: #101d1a; --ink: #e6efec; --muted: #94a8a3; --rule: #1f302c;
+    --accent: #4fd1c0; --accent-soft: #123631; --shadow: 0 24px 48px -28px rgba(0, 0, 0, .7);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.65 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--night); }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--sea); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+  h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.08; margin: 0; letter-spacing: -0.03em; text-wrap: balance; }
+  h2 { font-size: clamp(32px, 4.6vw, 54px); }
+  h3 { font-size: 21px; letter-spacing: -0.02em; }
+  p { margin: 0; }
+  .eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .lede { color: var(--muted); font-size: 18px; max-width: 60ch; }
+  section { padding-block: 120px; }
+  .section-head { display: grid; gap: 18px; margin-bottom: 64px; max-width: 760px; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 999px; font: 600 15px var(--body); text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--sea); color: var(--on-sea); box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--sea) 70%, transparent); }
+  .btn-primary:hover { box-shadow: 0 16px 38px -12px color-mix(in srgb, var(--sea) 85%, transparent); }
+  .btn-ghost { border-color: var(--night-line); color: var(--night-ink); background: transparent; }
+  .btn-ghost:hover { border-color: var(--sea); }
+  .btn .arrow { transition: transform .2s ease; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* Nav */
+  .nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--night) 82%, transparent); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border-bottom: 1px solid var(--night-line); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--night-ink); font: 700 20px var(--display); letter-spacing: -0.03em; }
+  .brand-accent { color: var(--sea); }
+  .brand-logo { flex: none; transition: transform .4s ease; }
+  .brand:hover .brand-logo { transform: rotate(-8deg); }
+  .nav-links { display: flex; gap: 30px; }
+  .nav-links a { color: var(--night-muted); text-decoration: none; font-size: 14px; font-weight: 600; position: relative; }
+  .nav-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--sea); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+  .nav-links a:hover { color: var(--night-ink); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav .btn { padding: 10px 18px; font-size: 14px; }
+
+  /* Hero */
+  .hero { position: relative; background: var(--night); color: var(--night-ink); overflow: hidden; isolation: isolate; }
+  .hero::before { content: ""; position: absolute; inset: -20% -10% auto auto; width: 720px; height: 720px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--sea) 22%, transparent), transparent 65%); filter: blur(10px); z-index: -1; }
+  #waves { position: absolute; inset: auto 0 0 0; width: 100%; height: 340px; z-index: -1; pointer-events: none; }
+  .hero .wrap { padding-block: 104px 0; }
+  .hero .eyebrow { color: var(--sea-bright); display: inline-flex; align-items: center; gap: 10px; }
+  .hero .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--sea); box-shadow: 0 0 0 4px color-mix(in srgb, var(--sea) 25%, transparent); animation: pulse 2.4s ease-in-out infinite; }
+  .hero h1 { font-size: clamp(44px, 7.6vw, 96px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; margin-top: 26px; max-width: 13ch; }
+  .hero h1 .w { display: inline-block; animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--d) * 90ms + 150ms); }
+  .hero h1 em { font-style: normal; background: linear-gradient(100deg, var(--sea-bright), var(--sea) 60%, #a7f3e7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero .lede { color: var(--night-muted); margin-top: 28px; font-size: 19px; animation: rise .9s .75s cubic-bezier(.2, .7, .2, 1) both; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 38px; animation: rise .9s .9s cubic-bezier(.2, .7, .2, 1) both; }
+
+  /* The voyage: Build → Test → Release */
+  .voyage { position: relative; margin-top: 76px; padding: 34px 28px 30px; border: 1px solid var(--night-line); border-radius: 20px; background: linear-gradient(180deg, color-mix(in srgb, var(--night-2) 90%, transparent), color-mix(in srgb, var(--night) 60%, transparent)); backdrop-filter: blur(6px); animation: rise 1s 1s cubic-bezier(.2, .7, .2, 1) both; }
+  .voyage-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--night-muted); }
+  .voyage-head .live { color: var(--sea-bright); display: inline-flex; align-items: center; gap: 8px; }
+  .voyage-head .live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--sea); animation: pulse 1.6s ease-in-out infinite; }
+  .route { position: relative; height: 150px; margin: 18px 22px 0; }
+  .track { position: absolute; left: 0; right: 0; top: 74px; height: 2px; background: repeating-linear-gradient(90deg, var(--night-line) 0 10px, transparent 10px 18px); }
+  .track .fill { position: absolute; inset: 0 auto 0 0; width: 100%; background: linear-gradient(90deg, var(--sea), var(--sea-bright)); box-shadow: 0 0 14px color-mix(in srgb, var(--sea) 70%, transparent); transform-origin: left; animation: fill 9s cubic-bezier(.45, 0, .25, 1) 1.6s infinite; }
+  .stop { position: absolute; top: 60px; transform: translateX(-50%); display: grid; justify-items: center; gap: 12px; text-align: center; width: 160px; }
+  .stop.s1 { left: 0; transform: none; justify-items: start; text-align: left; }
+  .stop.s2 { left: 50%; }
+  .stop.s3 { left: auto; right: 0; transform: none; justify-items: end; text-align: right; }
+  .stop .dot { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--night); border: 2px solid var(--night-line); color: transparent; animation: var(--k) 9s ease 1.6s infinite; }
+  .stop.s1 .dot { --k: check1; } .stop.s2 .dot { --k: check2; } .stop.s3 .dot { --k: check3; }
+  .stop .dot svg { width: 14px; height: 14px; }
+  .stop b { font: 700 16px var(--display); letter-spacing: -0.01em; }
+  .stop small { display: block; font: 500 12px var(--mono); color: var(--night-muted); margin-top: 2px; }
+  .stop.s1 .dot { margin-left: -14px; }
+  .stop.s3 .dot { margin-right: -14px; }
+  .boat { position: absolute; top: 18px; left: 0; width: 52px; height: 52px; margin-left: -26px; animation: sail 9s cubic-bezier(.45, 0, .25, 1) 1.6s infinite; }
+  .boat svg { width: 100%; height: 100%; animation: bob 2.2s ease-in-out infinite; filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--sea) 45%, transparent)); }
+  @keyframes sail { 0% { left: 0; opacity: 0; } 4% { left: 0; opacity: 1; } 70% { left: 100%; opacity: 1; } 90% { left: 100%; opacity: 1; } 97%, 100% { left: 100%; opacity: 0; } }
+  @keyframes fill { 0%, 4% { transform: scaleX(0); opacity: 1; } 70% { transform: scaleX(1); } 90% { transform: scaleX(1); opacity: 1; } 97%, 100% { transform: scaleX(1); opacity: 0; } }
+  @keyframes check1 { 0%, 4% { background: var(--night); border-color: var(--night-line); color: transparent; box-shadow: none; transform: none; } 7% { background: var(--sea); border-color: var(--sea); color: var(--on-sea); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sea) 22%, transparent); transform: scale(1.25); } 11%, 90% { background: var(--sea); border-color: var(--sea); color: var(--on-sea); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sea) 22%, transparent); transform: none; } 96%, 100% { background: var(--night); border-color: var(--night-line); color: transparent; box-shadow: none; transform: none; } }
+  @keyframes check2 { 0%, 28% { background: var(--night); border-color: var(--night-line); color: transparent; box-shadow: none; transform: none; } 31% { background: var(--sea); border-color: var(--sea); color: var(--on-sea); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sea) 22%, transparent); transform: scale(1.25); } 35%, 90% { background: var(--sea); border-color: var(--sea); color: var(--on-sea); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sea) 22%, transparent); transform: none; } 96%, 100% { background: var(--night); border-color: var(--night-line); color: transparent; box-shadow: none; transform: none; } }
+  @keyframes check3 { 0%, 68% { background: var(--night); border-color: var(--night-line); color: transparent; box-shadow: none; transform: none; } 71% { background: var(--sea); border-color: var(--sea); color: var(--on-sea); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sea) 22%, transparent); transform: scale(1.25); } 75%, 90% { background: var(--sea); border-color: var(--sea); color: var(--on-sea); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sea) 22%, transparent); transform: none; } 96%, 100% { background: var(--night); border-color: var(--night-line); color: transparent; box-shadow: none; transform: none; } }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-5px) rotate(3deg); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 64px; border-top: 1px solid var(--night-line); }
+  .stat { padding: 30px 24px 40px 0; }
+  .stat + .stat { padding-left: 24px; border-left: 1px solid var(--night-line); }
+  .stat b { display: block; font: 700 clamp(34px, 4.4vw, 52px)/1 var(--display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; color: var(--night-ink); }
+  .stat span { display: block; margin-top: 12px; font-size: 14px; color: var(--night-muted); max-width: 24ch; }
+
+  /* Marquee */
+  .marquee { background: var(--night-2); color: var(--night-muted); border-block: 1px solid var(--night-line); overflow: hidden; padding-block: 20px; }
+  .marquee-inner { display: flex; align-items: center; gap: 22px; }
+  .marquee-label { flex: none; font: 500 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--sea-bright); padding-left: var(--gutter-l); }
+  .marquee-window { overflow: hidden; flex: 1; min-width: 0; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .marquee-track { display: flex; width: max-content; animation: slide 40s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee-track ul { display: flex; gap: 40px; padding: 0 20px; margin: 0; list-style: none; font: 600 16px var(--display); letter-spacing: -0.01em; white-space: nowrap; }
+  .marquee-track li { display: flex; align-items: center; gap: 40px; }
+  .marquee-track li::after { content: "✦"; color: var(--night-line); font-size: 12px; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* Scroll reveal: pure CSS, content stays fully visible where unsupported */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% cover 28%; }
+      @keyframes reveal { from { opacity: .15; translate: 0 40px; scale: .985; } to { opacity: 1; translate: none; scale: none; } }
+    }
+  }
+
+  /* Cards with a cursor-following glow */
+  .glow { position: relative; background: var(--card); border: 1px solid var(--rule); border-radius: 20px; transition: transform .35s cubic-bezier(.2, .7, .2, 1), box-shadow .35s ease, border-color .35s ease; }
+  .glow::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s ease; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 14%, transparent), transparent 62%); }
+  .glow:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--accent) 45%, var(--rule)); }
+  .glow:hover::before { opacity: 1; }
+  .glow > * { position: relative; }
+
+  /* Capabilities */
+  .caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .cap { padding: 32px 28px 30px; display: grid; gap: 14px; align-content: start; }
+  .phase { justify-self: start; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); padding: 5px 10px; border-radius: 999px; background: var(--accent-soft); }
+  .cap p { color: var(--muted); font-size: 15.5px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .tag { font: 500 12px var(--mono); padding: 4px 9px; border-radius: 6px; border: 1px solid var(--rule); color: var(--muted); }
+
+  /* Work */
+  #work { background: var(--card); border-block: 1px solid var(--rule); }
+  .case { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; padding-block: 64px; border-top: 1px solid var(--rule); }
+  .case:first-of-type { border-top: 0; padding-top: 0; }
+  .case-meta { display: grid; gap: 16px; align-content: start; position: sticky; top: 110px; }
+  .case-meta .kind { font: 500 12px var(--mono); color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+  .case-meta h3 { font-size: clamp(28px, 3.4vw, 40px); letter-spacing: -0.035em; }
+  .case-meta p { color: var(--muted); }
+  .case-body { display: grid; gap: 30px; min-width: 0; }
+  .cb-row { display: grid; grid-template-columns: 120px 1fr; gap: 20px; }
+  .cb-row h4 { margin: 0; font: 500 12px/1.9 var(--mono); text-transform: uppercase; letter-spacing: .12em; color: var(--accent); }
+  .cb-row ul { margin: 0; padding-left: 18px; }
+  .cb-row li + li { margin-top: 6px; }
+  .pipeline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 500 12.5px var(--mono); }
+  .pipeline span { padding: 7px 11px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); transition: background .4s ease, border-color .4s ease, color .4s ease, box-shadow .4s ease; }
+  .pipeline i { color: var(--muted); font-style: normal; transition: color .4s ease; }
+  .pipeline.is-live span { animation: light .6s ease both; animation-delay: calc(var(--i) * 260ms); }
+  .pipeline.is-live i { color: var(--accent); }
+  @keyframes light { from { background: var(--paper); border-color: var(--rule); } 50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); } to { background: var(--accent-soft); border-color: var(--accent); color: var(--ink); } }
+
+  /* Journey */
+  .journey { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; list-style: none; margin: 0; padding: 0; }
+  .journey::before { content: ""; position: absolute; top: 19px; left: 20px; right: 20px; height: 2px; background: var(--rule); }
+  .journey::after { content: ""; position: absolute; top: 19px; left: 20px; right: 20px; height: 2px; background: linear-gradient(90deg, var(--accent), var(--sea)); transform-origin: left; }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .journey::after { animation: grow linear both; animation-timeline: view(); animation-range: entry 20% cover 55%; }
+      @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    }
+  }
+  .step { display: grid; gap: 12px; align-content: start; position: relative; }
+  .step .marker { position: relative; z-index: 1; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--card); border: 2px solid var(--accent); color: var(--accent); font: 700 14px var(--mono); }
+  .step .when { font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-top: 8px; }
+  .step p { color: var(--muted); font-size: 15.5px; }
+
+  /* Engagements */
+  #engage { background: var(--card); border-block: 1px solid var(--rule); }
+  .engage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .plan { padding: 34px 30px; display: grid; gap: 14px; align-content: start; background: var(--paper); }
+  .plan.featured { background: var(--night); color: var(--night-ink); border-color: var(--night-line); }
+  .plan.featured p, .plan.featured li { color: var(--night-muted); }
+  .plan.featured .dur { color: var(--sea-bright); }
+  .plan.featured::before { background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--sea) 20%, transparent), transparent 62%); }
+  .plan .dur { font: 500 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .plan h3 { font-size: 24px; }
+  .plan p { color: var(--muted); font-size: 15.5px; }
+  .plan ul { margin: 6px 0 0; padding: 0; list-style: none; font-size: 15px; display: grid; gap: 8px; }
+  .plan li { display: flex; gap: 10px; }
+  .plan li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+  .plan.featured li::before { color: var(--sea); }
+  .badge { justify-self: start; font: 600 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: var(--sea); color: var(--on-sea); }
+
+  /* Industries */
+  .inds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .ind { padding: 30px 28px; display: grid; gap: 12px; align-content: start; }
+  .ind p { color: var(--muted); font-size: 15.5px; }
+  .ind .unit { font: 500 12px var(--mono); color: var(--accent); }
+
+  /* Contact */
+  .contact { position: relative; background: var(--night); color: var(--night-ink); overflow: hidden; isolation: isolate; }
+  .contact::before { content: ""; position: absolute; left: -200px; bottom: -300px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--sea) 18%, transparent), transparent 65%); z-index: -1; }
+  .contact h2 { font-size: clamp(36px, 5.4vw, 64px); max-width: 16ch; margin-top: 20px; }
+  .contact .eyebrow { color: var(--sea-bright); }
+  .contact .lede { color: var(--night-muted); margin-top: 22px; }
+  .promise { margin-top: 34px; padding: 22px 24px; border-left: 3px solid var(--sea); background: color-mix(in srgb, var(--night-ink) 4%, transparent); border-radius: 0 14px 14px 0; font: 600 18px/1.5 var(--display); letter-spacing: -0.01em; max-width: 46ch; }
+  .contact-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .contact-grid { display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: start; }
+  .contact-grid > * { min-width: 0; }
+  .form { background: color-mix(in srgb, var(--night-ink) 5%, transparent); border: 1px solid var(--night-line); border-radius: 20px; padding: 34px; display: grid; gap: 18px; backdrop-filter: blur(6px); }
+  .form[hidden] { display: none; }
+  .form h3 { font-size: 24px; }
+  .form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: grid; gap: 6px; min-width: 0; }
+  .field label { font-size: 13px; font-weight: 600; color: var(--night-muted); }
+  .field input, .field select, .field textarea { width: 100%; font: 400 16px/1.5 var(--body); color: var(--night-ink); background: var(--night); border: 1px solid var(--night-line); border-radius: 12px; padding: 12px 14px; color-scheme: dark; transition: border-color .2s ease, box-shadow .2s ease; }
+  .field textarea { min-height: 128px; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--sea); box-shadow: 0 0 0 4px color-mix(in srgb, var(--sea) 22%, transparent); }
+  .form .btn { justify-self: start; }
+  .form .btn[disabled] { opacity: .6; cursor: progress; }
+  .form-note { font-size: 15px; color: var(--night-muted); }
+  .form-status { font-size: 14px; color: var(--sea-bright); min-height: 1em; }
+  .form.flash { border-color: var(--sea); box-shadow: 0 0 0 4px color-mix(in srgb, var(--sea) 18%, transparent); transition: border-color .6s, box-shadow .6s; }
+  .sent-mark { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--sea); color: var(--on-sea); animation: pop .6s cubic-bezier(.2, 1.4, .4, 1) both; }
+  @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+  #done-msg { margin: 0; white-space: pre-wrap; font: 400 14px/1.6 var(--mono); color: var(--night-ink); background: var(--night); border: 1px solid var(--night-line); border-radius: 12px; padding: 14px; max-height: 220px; overflow: auto; }
+
+  footer { background: var(--night); color: var(--night-muted); font-size: 13px; border-top: 1px solid var(--night-line); }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-block: 26px; }
+
+  @media (max-width: 960px) {
+    .nav-links { display: none; }
+    .caps, .engage, .inds { grid-template-columns: 1fr 1fr; }
+    .case { grid-template-columns: 1fr; gap: 28px; }
+    .case-meta { position: static; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(3) { padding-left: 0; border-left: 0; }
+    .stat:nth-child(n+3) { border-top: 1px solid var(--night-line); }
+    .journey { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+    .journey::before, .journey::after { display: none; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 640px) {
+    section { padding-block: 80px; }
+    .hero .wrap { padding-top: 72px; }
+    .caps, .engage, .inds, .journey { grid-template-columns: 1fr; }
+    .cb-row { grid-template-columns: 1fr; gap: 6px; }
+    .voyage { padding: 24px 16px 22px; margin-top: 56px; }
+    .route { margin-inline: 14px; height: 140px; }
+    .stop { width: 31%; }
+    .stop b { font-size: 14px; }
+    .stop small { font-size: 10.5px; }
+    .boat { width: 42px; height: 42px; margin-left: -21px; top: 24px; }
+    .stat { padding-right: 12px; }
+    .stat + .stat { padding-left: 12px; }
+    .stat:nth-child(3) { padding-left: 0; }
+    .form { padding: 24px 18px; }
+    .form .row { grid-template-columns: 1fr; }
+    .promise { font-size: 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    .track .fill { transform: none; }
+    .boat { left: 100%; }
+    .stop .dot { background: var(--sea); border-color: var(--sea); color: var(--on-sea); }
+    .marquee-track { flex-wrap: wrap; width: auto; }
+    .marquee-track ul[aria-hidden] { display: none; }
+    .marquee-track ul { flex-wrap: wrap; row-gap: 10px; white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg class="brand-logo" width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#2dd4bf"/><g transform="translate(0 2)" fill="#0f1e1c" stroke="#0f1e1c" stroke-linejoin="round"><path d="M32 10 L32 36 L49 36 Z" stroke-width="2"/><path d="M28 17 L28 36 L16 36 Z" stroke-width="2"/><path d="M12 42 L22 51 L52 41" fill="none" stroke-width="6" stroke-linecap="round"/></g></svg><span>Tru<span class="brand-accent">ship</span></span></a>
+    <div class="nav-links">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#work">Work</a>
+      <a href="#journey">How we work</a>
+      <a href="#engage">Engagements</a>
+    </div>
+    <a class="btn btn-primary" href="#contact-form" data-book>Book a call</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="waves" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <span class="eyebrow">Build · Test · Release · AI</span>
+    <h1><span class="w" style="--d:0">Build</span> <span class="w" style="--d:1">it</span> <span class="w" style="--d:2">right.</span> <span class="w" style="--d:3">Test</span> <span class="w" style="--d:4">it</span> <span class="w" style="--d:5">hard.</span> <span class="w" style="--d:6">Ship</span> <span class="w" style="--d:7">it</span> <span class="w" style="--d:8"><em>true.</em></span></h1>
+    <p class="lede">Truship works across the whole delivery path. We build software, automate its testing and run releases you can trust, even in regulated, high-stakes environments across FinTech, aviation and digital commerce.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#contact-form" data-book>Start a conversation <span class="arrow">→</span></a>
+      <a class="btn btn-ghost" href="#work">See recent work</a>
+    </div>
+
+    <div class="voyage" role="img" aria-label="A release moving through three checkpoints: build, test and release, each passing in turn.">
+      <div class="voyage-head"><span>Release 4.2 · main</span><span class="live">Pipeline running</span></div>
+      <div class="route">
+        <div class="track"><span class="fill"></span></div>
+        <div class="stop s1"><span class="dot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><div><b>Build</b><small>Merged &amp; compiled</small></div></div>
+        <div class="stop s2"><span class="dot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><div><b>Test</b><small>Suites green</small></div></div>
+        <div class="stop s3"><span class="dot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span><div><b>Release</b><small>Shipped to prod</small></div></div>
+        <div class="boat" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#2dd4bf"/><g transform="translate(0 2)" fill="#0f1e1c" stroke="#0f1e1c" stroke-linejoin="round"><path d="M32 10 L32 36 L49 36 Z" stroke-width="2"/><path d="M28 17 L28 36 L16 36 Z" stroke-width="2"/><path d="M12 42 L22 51 L52 41" fill="none" stroke-width="6" stroke-linecap="round"/></g></svg></div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b data-count="60" data-suffix="%">60%</b><span>Faster release cycles with AI-augmented automation</span></div>
+      <div class="stat"><b data-count="70" data-suffix="%+">70%+</b><span>Regression coverage with Playwright</span></div>
+      <div class="stat"><b data-count="3" data-prefix="&lt;" data-suffix=" min">&lt;3 min</b><span>AI review feedback on every pull request</span></div>
+      <div class="stat"><b data-count="2" data-suffix=" weeks">2 weeks</b><span>From first call to a prioritised delivery roadmap</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-label="Tools we ship with">
+  <div class="marquee-inner">
+    <span class="marquee-label">Tools we ship with</span>
+    <div class="marquee-window">
+      <div class="marquee-track">
+        <ul><li>Playwright</li><li>Selenium</li><li>Cypress</li><li>Appium</li><li>k6</li><li>JMeter</li><li>OWASP ZAP</li><li>Datadog</li><li>GitHub Actions</li><li>Jenkins</li><li>Claude API</li><li>FastAPI</li><li>React</li><li>Firebase</li></ul>
+        <ul aria-hidden="true"><li>Playwright</li><li>Selenium</li><li>Cypress</li><li>Appium</li><li>k6</li><li>JMeter</li><li>OWASP ZAP</li><li>Datadog</li><li>GitHub Actions</li><li>Jenkins</li><li>Claude API</li><li>FastAPI</li><li>React</li><li>Firebase</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+<section id="capabilities">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Capabilities</span>
+      <h2>What we do for your team</h2>
+      <p class="lede">You can engage us for a single capability or bring us in end to end, from first assessment to software running in production.</p>
+    </div>
+    <div class="caps">
+      <div class="cap glow reveal">
+        <span class="phase">Plan</span>
+        <h3>Delivery Strategy &amp; Transformation</h3>
+        <p>Assessments, roadmaps and operating models that cover engineering, QA and release as one system, with governance leadership can track.</p>
+        <div class="tags"><span class="tag">Operating model</span><span class="tag">TCoE setup</span><span class="tag">Governance</span></div>
+      </div>
+      <div class="cap glow reveal">
+        <span class="phase">Build</span>
+        <h3>Product Development</h3>
+        <p>We take an idea to a working, AI-assisted web app or MVP in days, with an architecture designed to be tested and released from day one.</p>
+        <div class="tags"><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">PWA</span><span class="tag">LLM integration</span></div>
+      </div>
+      <div class="cap glow reveal">
+        <span class="phase">Test</span>
+        <h3>Test Automation Architecture</h3>
+        <p>Page Object Model frameworks your team can maintain, built into CI/CD so every merge gets tested.</p>
+        <div class="tags"><span class="tag">Playwright</span><span class="tag">Selenium</span><span class="tag">Cypress</span><span class="tag">Appium</span></div>
+      </div>
+      <div class="cap glow reveal">
+        <span class="phase">Release</span>
+        <h3>Release Management &amp; CI/CD</h3>
+        <p>Pipelines, branching and environment strategy, release-readiness criteria and go/no-go governance, so releases become routine instead of risky.</p>
+        <div class="tags"><span class="tag">CI/CD</span><span class="tag">Release readiness</span><span class="tag">Go/no-go</span><span class="tag">Rollback</span></div>
+      </div>
+      <div class="cap glow reveal">
+        <span class="phase">AI</span>
+        <h3>AI Agents for Engineering</h3>
+        <p>Agents that review PRs, check readiness before QA and turn acceptance criteria into tests. Each one is evaluated for accuracy and keeps a human in the loop.</p>
+        <div class="tags"><span class="tag">Claude API</span><span class="tag">GPT-4</span><span class="tag">Responsible AI</span></div>
+      </div>
+      <div class="cap glow reveal">
+        <span class="phase">Operate</span>
+        <h3>Performance, Security &amp; Observability</h3>
+        <p>Load testing for peak traffic, security testing built into the pipeline, and dashboards that catch regressions before customers do.</p>
+        <div class="tags"><span class="tag">k6</span><span class="tag">JMeter</span><span class="tag">OWASP</span><span class="tag">Datadog</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Selected work</span>
+      <h2>Three recent projects</h2>
+      <p class="lede">An enterprise architecture, a multi-user AI platform and a consumer app, each taken from problem to a concrete outcome.</p>
+    </div>
+
+    <article class="case">
+      <div class="case-meta">
+        <span class="kind">Enterprise · Architecture &amp; estimate</span>
+        <h3>QA Control Tower</h3>
+        <p>An AI pipeline that reads acceptance criteria from Jira, scans the application and its existing Playwright framework, and writes automation scripts that follow the team's Page Object Model conventions.</p>
+      </div>
+      <div class="case-body">
+        <div class="cb-row reveal"><h4>Problem</h4><p>Automation trails behind development. Engineers rewrite the same page objects, and new tests drift away from the framework's conventions.</p></div>
+        <div class="cb-row reveal"><h4>Design</h4>
+          <div class="pipeline" id="tower-pipeline"><span style="--i:0">Jira webhook</span><i>→</i><span style="--i:1">AC parser</span><i>→</i><span style="--i:2">Framework scanner</span><i>→</i><span style="--i:3">Semantic test index</span><i>→</i><span style="--i:4">Coverage resolver</span><i>→</i><span style="--i:5">POM generator</span><i>→</i><span style="--i:6">Validate &amp; PR</span></div>
+        </div>
+        <div class="cb-row reveal"><h4>Highlights</h4><ul>
+          <li>A framework profile so generated code reads like your team wrote it</li>
+          <li>Checks whether a scenario is new, partly covered or already covered, and asks a person before skipping anything</li>
+          <li>Every generated test is run against staging before a PR is opened</li>
+        </ul></div>
+        <div class="cb-row reveal"><h4>Outcome</h4><p>A phased architecture with an evidence-based estimate: 3–6 weeks for a CLI MVP, 6–8 weeks for an agent wired into Jira and CI.</p></div>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="case-meta">
+        <span class="kind">Platform · Full-stack AI build</span>
+        <h3>Job Match Portal</h3>
+        <p>A shared web app that parses résumés, pulls live jobs from several sources across five cities, and ranks every role by how well it fits each candidate.</p>
+      </div>
+      <div class="case-body">
+        <div class="cb-row reveal"><h4>Problem</h4><p>Job hunting across several markets meant checking a dozen boards by hand with no consistent way to judge fit.</p></div>
+        <div class="cb-row reveal"><h4>Built</h4><ul>
+          <li>Résumé parsing (PDF/DOCX) that extracts skills and job titles</li>
+          <li>Job aggregation from Adzuna, Remotive, Arbeitnow, plus LinkedIn and Indeed through Apify</li>
+          <li>Match scoring into Close, Good and Weak tiers, with AI-written fit reasons, skill-gap analysis and cover letters</li>
+          <li>JWT auth, a multi-user dashboard, and save and applied tracking</li>
+        </ul></div>
+        <div class="cb-row reveal"><h4>Stack</h4><div class="tags"><span class="tag">FastAPI</span><span class="tag">React + Vite</span><span class="tag">Tailwind</span><span class="tag">PostgreSQL</span><span class="tag">OpenAI</span><span class="tag">Docker</span><span class="tag">Render</span></div></div>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="case-meta">
+        <span class="kind">Consumer · Mobile web app</span>
+        <h3>Milk Ledger</h3>
+        <p>A home-screen app for tracking daily deliveries, with separate 1 L and 0.5 L tabs, an automatic monthly bill and AI insights. It went from idea to installed on a phone in one sitting.</p>
+      </div>
+      <div class="case-body">
+        <div class="cb-row reveal"><h4>Problem</h4><p>Monthly bills from the supplier never matched what was actually delivered, and there was no record to check them against.</p></div>
+        <div class="cb-row reveal"><h4>Built</h4><ul>
+          <li>A one-tap calendar per quantity with a running bill pinned to the screen (₹70/L, ₹35/half-litre)</li>
+          <li>AI insights that compare months and point out missed-delivery patterns by weekday</li>
+          <li>Installable on a phone home screen, with a custom icon, and updates reach the device instantly</li>
+        </ul></div>
+        <div class="cb-row reveal"><h4>Why it matters</h4><p>The approach we use with enterprise clients applies here too: start from a real problem, test the edge cases (does an unmarked day count as missed?) and add AI only where it solves something.</p></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="journey">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">How we work</span>
+      <h2>What working with us feels like</h2>
+      <p class="lede">A short path from first call to a release you're proud of. You see findings in week one, not after months of discovery.</p>
+    </div>
+    <ol class="journey">
+      <li class="step reveal"><span class="marker">1</span><span class="when">Day 1</span><h3>Discovery call</h3><p>Forty-five minutes. We listen, ask about your product and team, and map where builds, tests or releases get stuck.</p></li>
+      <li class="step reveal"><span class="marker">2</span><span class="when">Week 1</span><h3>Honest findings</h3><p>A plain-language read of your pipeline, test suite and release risk, with the three things that matter most.</p></li>
+      <li class="step reveal"><span class="marker">3</span><span class="when">Week 2</span><h3>A roadmap you can run</h3><p>A prioritised 90-day plan with effort, owners and quick wins your team can start on straight away.</p></li>
+      <li class="step reveal"><span class="marker">4</span><span class="when">Week 3 onward</span><h3>Build and ship</h3><p>We work in your repo alongside your team until the first release that goes out calmly and on time.</p></li>
+    </ol>
+    <!-- Testimonials: add real, approved client quotes here once you have permission to share them. -->
+  </div>
+</section>
+
+<section id="engage">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Engagements</span>
+      <h2>Three ways to work together</h2>
+    </div>
+    <div class="engage">
+      <div class="plan glow reveal">
+        <span class="dur">2 weeks · fixed scope</span>
+        <h3>Delivery Health Check</h3>
+        <p>An independent assessment of how you build, test and release today, and where the risk sits.</p>
+        <ul><li>Maturity scorecard across build, test and release</li><li>Pipeline and release-risk review</li><li>A prioritised 90-day roadmap</li></ul>
+      </div>
+      <div class="plan featured glow reveal">
+        <span class="badge">Most requested</span>
+        <span class="dur">4–8 weeks · build sprint</span>
+        <h3>Build &amp; Automate Sprint</h3>
+        <p>We build with your team, whether that is a product, a test framework, a release pipeline or an AI agent, then hand it over in working order.</p>
+        <ul><li>Web apps and MVPs</li><li>Playwright framework and CI/CD pipeline</li><li>AI agents (PR review, Pre-QA, AC-to-test)</li></ul>
+      </div>
+      <div class="plan glow reveal">
+        <span class="dur">Monthly retainer</span>
+        <h3>Fractional Delivery Lead</h3>
+        <p>Senior leadership for engineering quality and releases, without a full-time hire, for scale-ups and transformation programmes.</p>
+        <ul><li>Engineering, QA and release governance</li><li>Release-readiness and go/no-go ownership</li><li>Hiring, RFP and presales support</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="industries">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Industries</span>
+      <h2>Where we've proven it</h2>
+      <p class="lede">Our work comes from sectors where a bad release costs money, reputation or regulatory standing.</p>
+    </div>
+    <div class="inds">
+      <div class="ind glow reveal"><span class="unit">Zero audit findings · 4 years</span><h3>FinTech &amp; Compliance</h3><p>Audit-ready test strategies with full traceability, GDPR-safe test data, and sub-second latency testing for financial data.</p></div>
+      <div class="ind glow reveal"><span class="unit">20+ global airlines</span><h3>Aviation</h3><p>Reservations, passenger service and cargo platforms for global airlines, tested for peak booking traffic with no tolerance for defects.</p></div>
+      <div class="ind glow reveal"><span class="unit">PCI-adjacent commerce</span><h3>Digital Commerce &amp; Retail</h3><p>High-volume transactional platforms, with AI-augmented regression running on every release.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <span class="eyebrow">Let's talk</span>
+      <h2>Have a release you can't afford to get wrong?</h2>
+      <p class="lede">Tell us where delivery is stuck, whether in build, test or release. We'll reply within one business day with a first view on how we'd approach it.</p>
+      <p class="promise">No 80-page decks. Working software, honest findings, and a team that answers within a day.</p>
+      <div class="contact-row">
+        <a class="btn btn-ghost" href="mailto:hello@truship.org?subject=Consulting%20enquiry">hello@truship.org</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/george-david-kolath" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+      <p style="margin-top:28px;color:var(--night-muted);font-size:14px">Based in Kochi, India · Working with clients in India, the UAE, the UK and APAC</p>
+    </div>
+    <form class="form" id="contact-form" novalidate>
+      <p hidden><label>Leave this empty <input name="bot-field" id="f-bot" tabindex="-1" autocomplete="off"></label></p>
+      <h3>Book a discovery call</h3>
+      <div class="row">
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" autocomplete="organization"></div>
+        <div class="field"><label for="f-topic">What do you need help with?</label>
+          <select id="f-topic" name="topic">
+            <option>Delivery Health Check</option>
+            <option>Build &amp; Automate Sprint</option>
+            <option>Fractional Delivery Lead</option>
+            <option>Something else</option>
+          </select></div>
+      </div>
+      <div class="field"><label for="f-msg">Tell us a little about it</label><textarea id="f-msg" name="message" placeholder="Your product, team size, and where builds, tests or releases are getting stuck" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Request a call <span class="arrow">→</span></button>
+      <p class="form-status" id="form-status" role="status"></p>
+    </form>
+    <div class="form" id="form-sent" hidden>
+      <span class="sent-mark"><svg width="26" height="26" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>
+      <h3>Thanks, we've got it.</h3>
+      <p class="form-note">Your request is with us. We'll reply within one business day to <b id="sent-email" style="color:var(--night-ink)"></b> with a first view and a few times for a call.</p>
+    </div>
+    <div class="form" id="form-done" hidden>
+      <h3>Almost there, one last step</h3>
+      <p class="form-note">Your request is ready. Send it to <b style="color:var(--night-ink)">hello@truship.org</b> and we'll reply within one business day.</p>
+      <pre id="done-msg"></pre>
+      <div class="contact-row" style="margin-top:4px">
+        <a class="btn btn-primary" id="done-mail" target="_blank" rel="noopener">Open in email app</a>
+        <button class="btn btn-ghost" id="done-copy" type="button">Copy message</button>
+        <button class="btn btn-ghost" id="done-edit" type="button">Edit</button>
+      </div>
+      <p class="form-status" id="done-status" role="status"></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="y">2026</span> Truship · Software delivery consultancy</span>
+    <span>Build · Test · Release · AI Agents</span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('y').textContent = new Date().getFullYear();
+const FIREBASE_PROJECT = 'truship-6a881';
+const NOTIFY_TO = 'hello@truship.org'; // keep in sync with firestore.rules
+const FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT}/databases/(default)/documents/enquiries`;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Hero waves: a few slow sine lines drawn on canvas; drawn once when motion is reduced.
+(() => {
+  const canvas = document.getElementById('waves');
+  const ctx = canvas.getContext('2d');
+  let w = 0, h = 0, t = 0, running = false, raf = 0;
+  const lines = [
+    { amp: 18, len: 520, speed: .00028, y: .42, alpha: .22 },
+    { amp: 26, len: 760, speed: -.0002, y: .58, alpha: .14 },
+    { amp: 14, len: 380, speed: .00036, y: .72, alpha: .18 },
+    { amp: 32, len: 980, speed: .00016, y: .86, alpha: .10 }
+  ];
+  function size() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function draw(now) {
+    ctx.clearRect(0, 0, w, h);
+    for (const l of lines) {
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 6) {
+        const y = l.y * h + Math.sin((x / l.len) * Math.PI * 2 + now * l.speed) * l.amp + Math.sin((x / (l.len * 2.3)) * Math.PI * 2 - now * l.speed * .6) * l.amp * .5;
+        x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.strokeStyle = `rgba(45, 212, 191, ${l.alpha})`;
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+    }
+  }
+  function loop(now) { draw(now); if (running) raf = requestAnimationFrame(loop); }
+  size(); draw(0);
+  addEventListener('resize', () => { size(); draw(performance.now()); });
+  if (reduceMotion) return;
+  new IntersectionObserver(([e]) => {
+    running = e.isIntersecting;
+    cancelAnimationFrame(raf);
+    if (running) raf = requestAnimationFrame(loop);
+  }).observe(canvas);
+})();
+
+// Count the hero numbers up once; the final values are already in the HTML.
+(() => {
+  if (reduceMotion || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    const el = e.target, end = +el.dataset.count, pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+    const t0 = performance.now(), dur = 1400;
+    const tick = now => {
+      const p = Math.min((now - t0) / dur, 1), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
+      el.textContent = pre + v + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }), { threshold: .6 });
+  document.querySelectorAll('[data-count]').forEach(el => { if (+el.dataset.count >= 10) io.observe(el); });
+})();
+
+// Light up the Control Tower pipeline step by step when it scrolls into view.
+(() => {
+  const p = document.getElementById('tower-pipeline');
+  if (reduceMotion || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { p.classList.add('is-live'); io.disconnect(); } }, { threshold: .7 });
+  io.observe(p);
+})();
+
+// Soft glow that follows the cursor across cards.
+document.querySelectorAll('.glow').forEach(card => card.addEventListener('pointermove', e => {
+  const r = card.getBoundingClientRect();
+  card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+  card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+}));
+
+// Contact form
+const form = document.getElementById('contact-form');
+const done = document.getElementById('form-done');
+document.querySelectorAll('[data-book]').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  form.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  form.classList.add('flash');
+  setTimeout(() => form.classList.remove('flash'), 1600);
+  setTimeout(() => form.querySelector('#f-name').focus({ preventScroll: true }), 450);
+}));
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const status = document.getElementById('form-status');
+  const bad = [...form.querySelectorAll('[required]')].find(f => !f.value.trim() || (f.type === 'email' && !f.checkValidity()));
+  if (bad) { status.textContent = 'Please fill in your ' + bad.previousElementSibling.textContent.toLowerCase() + '.'; bad.focus(); return; }
+  const d = Object.fromEntries(new FormData(form));
+  const body = `Name: ${d.name}\nEmail: ${d.email}\nCompany: ${d.company || '-'}\nInterested in: ${d.topic}\n\n${d.message}`;
+  // Save the enquiry to Firestore (rules allow create-only). If that fails, e.g. in the
+  // claude.ai preview, fall back to the email panel so the enquiry is never lost.
+  const btn = form.querySelector('button[type=submit]');
+  btn.disabled = true; status.textContent = 'Sending…';
+  try {
+    if (!d['bot-field']) {
+      const str = v => ({ stringValue: v });
+      const doc = { fields: {
+        name: str(d.name.trim()), email: str(d.email.trim()), company: str(d.company.trim()),
+        topic: str(d.topic), details: str(d.message.trim()),
+        // "to", "replyTo" and "message" are the shape the Trigger Email extension sends from.
+        to: str(NOTIFY_TO), replyTo: str(d.email.trim()),
+        message: { mapValue: { fields: { subject: str('New enquiry: ' + d.topic + ' (' + d.name.trim() + ')'), text: str(body) } } }
+      } };
+      const r = await fetch(FIRESTORE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(doc), signal: AbortSignal.timeout(10000) });
+      if (!r.ok) throw new Error(r.status);
+    }
+    document.getElementById('sent-email').textContent = d.email;
+    form.hidden = true;
+    const sent = document.getElementById('form-sent');
+    sent.hidden = false;
+    sent.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    return;
+  } catch { /* Firestore unreachable or refused: use the email fallback */ }
+  finally { btn.disabled = false; }
+  status.textContent = '';
+  // Never navigate this page to mailto: inside an embedded frame that leaves a blank screen.
+  document.getElementById('done-mail').href = 'mailto:hello@truship.org?subject=' + encodeURIComponent('Discovery call request: ' + d.topic) + '&body=' + encodeURIComponent(body);
+  document.getElementById('done-msg').textContent = 'To: hello@truship.org\nSubject: Discovery call request: ' + d.topic + '\n\n' + body;
+  document.getElementById('done-status').textContent = '';
+  form.hidden = true;
+  done.hidden = false;
+  done.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+});
+document.getElementById('done-copy').addEventListener('click', async () => {
+  const s = document.getElementById('done-status');
+  try { await navigator.clipboard.writeText(document.getElementById('done-msg').textContent); s.textContent = 'Copied. Paste it into an email to hello@truship.org.'; }
+  catch { s.textContent = 'Copy is blocked here. Select the text above and copy it manually.'; }
+});
+document.getElementById('done-edit').addEventListener('click', () => { done.hidden = true; form.hidden = false; form.querySelector('textarea').focus(); });
+</script>
+</body>
+</html>

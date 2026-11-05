@@ -1,0 +1,41 @@
+rules_version = '2';
+
+// Website visitors may only ADD an enquiry with exactly the expected fields.
+// Nobody can read, change or delete enquiries from the website; view them in the
+// Firebase console. The Trigger Email extension writes delivery status with admin
+// access, so these rules don't block it.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /enquiries/{id} {
+      allow create: if isValidEnquiry(request.resource.data);
+      allow read, update, delete: if false;
+    }
+
+    // Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+
+  function isText(v, min, max) {
+    return v is string && v.size() >= min && v.size() <= max;
+  }
+
+  function isValidEnquiry(d) {
+    return d.keys().hasOnly(['name', 'email', 'company', 'topic', 'details', 'to', 'replyTo', 'message'])
+      && d.keys().hasAll(['name', 'email', 'company', 'topic', 'details', 'to', 'replyTo', 'message'])
+      && isText(d.name, 1, 100)
+      && isText(d.email, 3, 200)
+      && d.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+      && isText(d.company, 0, 100)
+      && d.topic in ['Delivery Health Check', 'Build & Automate Sprint', 'Fractional Delivery Lead', 'Something else']
+      && isText(d.details, 1, 5000)
+      // Notifications can only ever go to your own inbox. Keep in sync with NOTIFY_TO in index.html.
+      && d.to == 'hello@truship.org'
+      && d.replyTo == d.email
+      && d.message is map
+      && d.message.keys().hasOnly(['subject', 'text'])
+      && isText(d.message.subject, 1, 250)
+      && isText(d.message.text, 1, 6000);
+  }
+}
