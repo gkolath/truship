@@ -14,18 +14,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<script>try { const t = localStorage.getItem('truship-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>
   /* Layout: night bands (hero, contact) bracket cool sea-tinted paper sections; one orchestrated moment, the voyage Build → Test → Release. */
   :root {
-    /* Night bands look the same in both themes */
-    --night: #06100e;
-    --night-2: #0b1a17;
-    --night-ink: #eaf4f1;
-    --night-muted: #93aea8;
-    --night-line: #1c302c;
+    /* Bands (nav, hero, contact): seafoam by day, deep sea at night */
+    --night: #eaf4f1;
+    --night-2: #dfeee9;
+    --night-ink: #0b1d1a;
+    --night-muted: #4b605b;
+    --night-line: #c8dcd6;
     --sea: #2dd4bf;
-    --sea-bright: #5eead4;
+    --sea-bright: #0f766e;
     --on-sea: #062420;
+    --em-a: #0f766e; --em-b: #0d9488; --em-c: #14b8a6;
+    --wave: 15, 118, 110;
+    --field-scheme: light;
     /* Paper sections follow the viewer's theme */
     --paper: #f3f7f6;
     --card: #ffffff;
@@ -44,12 +48,14 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
+      --night: #06100e; --night-2: #0b1a17; --night-ink: #eaf4f1; --night-muted: #93aea8; --night-line: #1c302c; --sea-bright: #5eead4; --em-a: #5eead4; --em-b: #2dd4bf; --em-c: #a7f3e7; --wave: 45, 212, 191; --field-scheme: dark;
       --paper: #0a1412; --card: #101d1a; --ink: #e6efec; --muted: #94a8a3; --rule: #1f302c;
       --accent: #4fd1c0; --accent-soft: #123631; --shadow: 0 24px 48px -28px rgba(0, 0, 0, .7);
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
+    --night: #06100e; --night-2: #0b1a17; --night-ink: #eaf4f1; --night-muted: #93aea8; --night-line: #1c302c; --sea-bright: #5eead4; --em-a: #5eead4; --em-b: #2dd4bf; --em-c: #a7f3e7; --wave: 45, 212, 191; --field-scheme: dark;
     --paper: #0a1412; --card: #101d1a; --ink: #e6efec; --muted: #94a8a3; --rule: #1f302c;
     --accent: #4fd1c0; --accent-soft: #123631; --shadow: 0 24px 48px -28px rgba(0, 0, 0, .7);
     color-scheme: dark;
@@ -85,7 +91,7 @@
   .nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--night) 82%, transparent); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border-bottom: 1px solid var(--night-line); }
   .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
   .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--night-ink); font: 700 20px var(--display); letter-spacing: -0.03em; }
-  .brand-accent { color: var(--sea); }
+  .brand-accent { color: var(--sea-bright); }
   .brand-logo { flex: none; transition: transform .4s ease; }
   .brand:hover .brand-logo { transform: rotate(-8deg); }
   .nav-links { display: flex; gap: 30px; }
@@ -94,6 +100,13 @@
   .nav-links a:hover { color: var(--night-ink); }
   .nav-links a:hover::after { transform: scaleX(1); }
   .nav .btn { padding: 10px 18px; font-size: 14px; }
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+  .theme-toggle { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--night-line); background: transparent; color: var(--night-ink); cursor: pointer; transition: border-color .2s ease, transform .3s ease; }
+  .theme-toggle:hover { border-color: var(--sea); transform: rotate(-15deg); }
+  .theme-toggle svg { width: 18px; height: 18px; }
+  .theme-toggle .moon { display: none; }
+  .theme-toggle[data-mode="dark"] .sun { display: none; }
+  .theme-toggle[data-mode="dark"] .moon { display: block; }
 
   /* Hero */
   .hero { position: relative; background: var(--night); color: var(--night-ink); overflow: hidden; isolation: isolate; }
@@ -104,7 +117,7 @@
   .hero .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--sea); box-shadow: 0 0 0 4px color-mix(in srgb, var(--sea) 25%, transparent); animation: pulse 2.4s ease-in-out infinite; }
   .hero h1 { font-size: clamp(44px, 7.6vw, 96px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; margin-top: 26px; max-width: 13ch; }
   .hero h1 .w { display: inline-block; animation: rise .9s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--d) * 90ms + 150ms); }
-  .hero h1 em { font-style: normal; background: linear-gradient(100deg, var(--sea-bright), var(--sea) 60%, #a7f3e7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero h1 em { font-style: normal; background: linear-gradient(100deg, var(--em-a), var(--em-b) 60%, var(--em-c)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .hero .lede { color: var(--night-muted); margin-top: 28px; font-size: 19px; animation: rise .9s .75s cubic-bezier(.2, .7, .2, 1) both; }
   .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 38px; animation: rise .9s .9s cubic-bezier(.2, .7, .2, 1) both; }
 
@@ -219,7 +232,7 @@
   #engage { background: var(--card); border-block: 1px solid var(--rule); }
   .engage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .plan { padding: 34px 30px; display: grid; gap: 14px; align-content: start; background: var(--paper); }
-  .plan.featured { background: var(--night); color: var(--night-ink); border-color: var(--night-line); }
+  .plan.featured { background: var(--night); color: var(--night-ink); border-color: color-mix(in srgb, var(--sea) 55%, var(--night-line)); }
   .plan.featured p, .plan.featured li { color: var(--night-muted); }
   .plan.featured .dur { color: var(--sea-bright); }
   .plan.featured::before { background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--sea) 20%, transparent), transparent 62%); }
@@ -254,7 +267,7 @@
   .form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .field { display: grid; gap: 6px; min-width: 0; }
   .field label { font-size: 13px; font-weight: 600; color: var(--night-muted); }
-  .field input, .field select, .field textarea { width: 100%; font: 400 16px/1.5 var(--body); color: var(--night-ink); background: var(--night); border: 1px solid var(--night-line); border-radius: 12px; padding: 12px 14px; color-scheme: dark; transition: border-color .2s ease, box-shadow .2s ease; }
+  .field input, .field select, .field textarea { width: 100%; font: 400 16px/1.5 var(--body); color: var(--night-ink); background: var(--night); border: 1px solid var(--night-line); border-radius: 12px; padding: 12px 14px; color-scheme: var(--field-scheme); transition: border-color .2s ease, box-shadow .2s ease; }
   .field textarea { min-height: 128px; resize: vertical; }
   .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--sea); box-shadow: 0 0 0 4px color-mix(in srgb, var(--sea) 22%, transparent); }
   .form .btn { justify-self: start; }
@@ -322,7 +335,10 @@
       <a href="#journey">How we work</a>
       <a href="#engage">Engagements</a>
     </div>
-    <a class="btn btn-primary" href="#contact-form" data-book>Book a call</a>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg></button>
+      <a class="btn btn-primary" href="#contact-form" data-book>Book a call</a>
+    </div>
   </div>
 </nav>
 
@@ -613,11 +629,34 @@ const NOTIFY_TO = 'hello@truship.org'; // keep in sync with firestore.rules
 const FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT}/databases/(default)/documents/enquiries`;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Theme: follows the device until the visitor picks one, then remembers it.
+(() => {
+  const btn = document.getElementById('theme-toggle'), root = document.documentElement, mq = matchMedia('(prefers-color-scheme: dark)');
+  const current = () => root.dataset.theme || (mq.matches ? 'dark' : 'light');
+  const sync = () => {
+    const mode = current();
+    btn.dataset.mode = mode;
+    btn.setAttribute('aria-label', mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    btn.title = btn.getAttribute('aria-label');
+    dispatchEvent(new Event('themechange'));
+  };
+  btn.addEventListener('click', () => {
+    const next = current() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try { localStorage.setItem('truship-theme', next); } catch (e) {}
+    sync();
+  });
+  mq.addEventListener('change', () => { if (!root.dataset.theme) sync(); });
+  sync();
+})();
+
 // Hero waves: a few slow sine lines drawn on canvas; drawn once when motion is reduced.
 (() => {
   const canvas = document.getElementById('waves');
   const ctx = canvas.getContext('2d');
   let w = 0, h = 0, t = 0, running = false, raf = 0;
+  let waveRGB = getComputedStyle(document.documentElement).getPropertyValue('--wave').trim() || '45, 212, 191';
+  addEventListener('themechange', () => { waveRGB = getComputedStyle(document.documentElement).getPropertyValue('--wave').trim() || waveRGB; draw(performance.now()); });
   const lines = [
     { amp: 18, len: 520, speed: .00028, y: .42, alpha: .22 },
     { amp: 26, len: 760, speed: -.0002, y: .58, alpha: .14 },
@@ -638,7 +677,7 @@ const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
         const y = l.y * h + Math.sin((x / l.len) * Math.PI * 2 + now * l.speed) * l.amp + Math.sin((x / (l.len * 2.3)) * Math.PI * 2 - now * l.speed * .6) * l.amp * .5;
         x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
       }
-      ctx.strokeStyle = `rgba(45, 212, 191, ${l.alpha})`;
+      ctx.strokeStyle = `rgba(${waveRGB}, ${l.alpha})`;
       ctx.lineWidth = 1.4;
       ctx.stroke();
     }
