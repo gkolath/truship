@@ -34,21 +34,15 @@ under **Firestore Database → Data → enquiries**.
 2. Add the DNS records Firebase shows wherever you bought truship.org.
 3. HTTPS is set up automatically once DNS updates (minutes to a few hours).
 
-## 5. Get an email for every enquiry (optional)
-Needs the **Blaze (pay-as-you-go)** plan. At a consultancy's volume it stays at or near $0,
-but a card is required.
-1. Console → **Extensions → Trigger Email from Firestore → Install**.
-2. Set **Email documents collection** to `enquiries`.
-3. Set the **SMTP connection URI** for the account that sends the alerts, e.g. Zoho Mail or
-   Gmail with an app password: `smtps://you@domain:APP_PASSWORD@smtp.zoho.in:465`.
-4. Set **Default FROM address** to that same account.
-
-Alerts go to **hello@truship.org**. To use another inbox, change it in both places, then deploy:
-- `NOTIFY_TO` near the bottom of `index.html`
-- the `d.to == '...'` line in `firestore.rules`
+## 5. Email for every enquiry (Web3Forms)
+Each enquiry is emailed to **hello@truship.org** through Web3Forms (free plan, form
+"Truship website enquiries", account hello@truship.org). The access key is `WEB3FORMS_KEY`
+near the bottom of `index.html`; it is a public key and is safe in client-side code.
+Firestore still keeps a backup copy of every enquiry. The Firebase Trigger Email extension
+is not used (it needs the Blaze plan and Firebase Extensions shut down on 31 March 2027).
 
 ## How the form behaves
-- If the enquiry is saved, the visitor sees "Thanks, we've got it."
-- If Firestore can't be reached (e.g. the database isn't created yet, or the claude.ai
-  preview blocks it), the visitor sees the "send this email" panel, so nothing is lost.
+- If the email to hello@truship.org is sent, the visitor sees "Thanks, we've got it."
+- If Web3Forms can't be reached, the visitor sees the "send this email" panel, so nothing
+  is lost.
 - A hidden spam trap discards most bot submissions without saving them.

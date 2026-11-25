@@ -627,6 +627,9 @@ document.getElementById('y').textContent = new Date().getFullYear();
 const FIREBASE_PROJECT = 'truship-6a881';
 const NOTIFY_TO = 'hello@truship.org'; // keep in sync with firestore.rules
 const FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT}/databases/(default)/documents/enquiries`;
+// Web3Forms sends each enquiry to the inbox this public access key was created for (hello@truship.org).
+const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+const WEB3FORMS_KEY = 'a8fb51e0-d488-43c7-84e8-decfc8854ed8';
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Theme: follows the device until the visitor picks one, then remembers it.
@@ -743,12 +746,21 @@ form.addEventListener('submit', async e => {
   if (bad) { status.textContent = 'Please fill in your ' + bad.previousElementSibling.textContent.toLowerCase() + '.'; bad.focus(); return; }
   const d = Object.fromEntries(new FormData(form));
   const body = `Name: ${d.name}\nEmail: ${d.email}\nCompany: ${d.company || '-'}\nInterested in: ${d.topic}\n\n${d.message}`;
-  // Save the enquiry to Firestore (rules allow create-only). If that fails, e.g. in the
-  // claude.ai preview, fall back to the email panel so the enquiry is never lost.
+  // 1. Email the enquiry to hello@truship.org through Web3Forms (this is the notification).
+  // 2. Also save a copy to Firestore (rules allow create-only) as a backup record.
+  // Success = the email went out. If it didn't, show the email panel so nothing is lost.
   const btn = form.querySelector('button[type=submit]');
   btn.disabled = true; status.textContent = 'Sending…';
   try {
     if (!d['bot-field']) {
+      const subject = 'New enquiry: ' + d.topic + ' (' + d.name.trim() + ')';
+      const mail = fetch(WEB3FORMS_URL, { method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject, from_name: 'truship.org',
+          name: d.name.trim(), email: d.email.trim(), company: d.company.trim() || '-',
+          interested_in: d.topic, message: d.message.trim() }),
+        signal: AbortSignal.timeout(10000) })
+        .then(r => r.json()).then(j => { if (!j.success) throw new Error(j.message || 'not sent'); });
       const str = v => ({ stringValue: v });
       const doc = { fields: {
         name: str(d.name.trim()), email: str(d.email.trim()), company: str(d.company.trim()),
@@ -757,9 +769,10 @@ form.addEventListener('submit', async e => {
         to: str(NOTIFY_TO), replyTo: str(d.email.trim()),
         message: { mapValue: { fields: { subject: str('New enquiry: ' + d.topic + ' (' + d.name.trim() + ')'), text: str(body) } } }
       } };
-      const r = await fetch(FIRESTORE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(doc), signal: AbortSignal.timeout(10000) });
-      if (!r.ok) throw new Error(r.status);
+      const backup = fetch(FIRESTORE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(doc), signal: AbortSignal.timeout(10000) }).catch(() => {});
+      const [sentMail] = await Promise.allSettled([mail, backup]);
+      if (sentMail.status !== 'fulfilled') throw sentMail.reason;
     }
     document.getElementById('sent-email').textContent = d.email;
     form.hidden = true;
@@ -767,7 +780,7 @@ form.addEventListener('submit', async e => {
     sent.hidden = false;
     sent.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     return;
-  } catch { /* Firestore unreachable or refused: use the email fallback */ }
+  } catch { /* email service unreachable or refused: use the email fallback */ }
   finally { btn.disabled = false; }
   status.textContent = '';
   // Never navigate this page to mailto: inside an embedded frame that leaves a blank screen.
